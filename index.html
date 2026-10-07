@@ -3,50 +3,80 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Aditya Sharma</title>
-  <meta name="description" content="Aditya Sharma — portfolio and projects.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%235a2800'/%3E%3Crect x='1' y='1' width='14' height='14' fill='%23f8a830'/%3E%3Crect x='6' y='3' width='4' height='2' fill='%23fff'/%3E%3Crect x='9' y='5' width='2' height='3' fill='%23fff'/%3E%3Crect x='7' y='8' width='2' height='2' fill='%23fff'/%3E%3Crect x='7' y='11' width='2' height='2' fill='%23fff'/%3E%3C/svg%3E">
+  <title>Aditya Sharma — The Monolith</title>
+  <meta name="description" content="Aditya Sharma — developer and builder. Enter the portfolio or browse every project.">
+  <meta name="theme-color" content="#0b0806">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0806'/%3E%3Cpath d='M11 28 L12.5 5 L19.5 4 L21 28 Z' fill='%23231c17'/%3E%3Cpath d='M15 9v4h2M15 16l2 2M17 16l-2 2M16 21v4' stroke='%23ff8a33' stroke-width='1.4' fill='none'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <main class="world" id="world">
-    <div class="sky" aria-hidden="true">
-      <div class="stars"></div>
-      <div class="cloud c1"></div>
-      <div class="cloud c2"></div>
-      <div class="cloud c3"></div>
-      <div class="hill h1"></div>
-      <div class="hill h2"></div>
-    </div>
+  <canvas id="scene" aria-hidden="true"></canvas>
 
-    <header class="hud" aria-hidden="true">
-      <div><span id="hud-name">PLAYER</span><b id="score">000000</b></div>
-      <div><span>&nbsp;</span><b><i class="coin-icon"></i>×<span id="coins">00</span></b></div>
-      <div><span>WORLD</span><b>1-1</b></div>
-      <div><span>TIME</span><b id="time">400</b></div>
+  <!-- loading / title screen -->
+  <div id="loader" class="loader" role="status" aria-live="polite">
+    <svg class="mark" viewBox="0 0 48 64" aria-hidden="true">
+      <path d="M14 62 L16.5 6 L32 3 L35 62 Z" fill="currentColor" opacity=".12"/>
+      <path d="M14 62 L16.5 6 L32 3 L35 62 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      <path class="glyph" d="M22 14v7h5M22 27l5 5M27 27l-5 5M24.5 39v9M21 44h7" fill="none" stroke-width="2"/>
+    </svg>
+    <p class="loader-title">Aditya Sharma</p>
+    <div class="bar"><span id="bar-fill"></span></div>
+    <p class="loader-status" id="loader-status">Loading world <b id="loader-pct">0%</b></p>
+    <p class="loader-start" id="loader-start" hidden>Press any key to begin</p>
+    <p class="loader-tip" id="loader-tip">Tip · Press 1 to jump straight to the portfolio</p>
+  </div>
+
+  <!-- HUD / menu -->
+  <div class="ui" id="ui">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+
+    <header class="top">
+      <a class="brand" href="./" aria-label="Home">
+        <svg viewBox="0 0 48 64" aria-hidden="true">
+          <path d="M14 62 L16.5 6 L32 3 L35 62 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+          <path d="M22 14v7h5M22 27l5 5M27 27l-5 5M24.5 39v9" fill="none" stroke="var(--ember)" stroke-width="2.4"/>
+        </svg>
+        <span>A<i>·</i>S</span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="https://aditya-os-gamma.vercel.app" data-warp="portfolio"><small>01</small>Portfolio</a>
+        <a href="https://github.com/aditya-bagret?tab=repositories" data-warp="projects"><small>02</small>Projects</a>
+        <a href="https://github.com/aditya-bagret" target="_blank" rel="noopener"><small>03</small>GitHub</a>
+      </nav>
+      <button class="sound" id="sound" type="button" aria-pressed="false">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-label">Sound off</span>
+      </button>
     </header>
 
-    <section class="title">
-      <h1 id="name">Aditya Sharma</h1>
-      <p class="tagline" id="tagline"></p>
-      <p class="blink" id="prompt">Hit a block to start</p>
-    </section>
+    <main class="hero">
+      <p class="eyebrow"><span>◆</span> Chapter I — The Builder</p>
+      <h1 class="title">Aditya<br>Sharma</h1>
+      <p class="lede">Developer, builder and tinkerer. Step into the world of things I’ve made — from AI tools to full-stack apps.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://aditya-os-gamma.vercel.app" data-warp="portfolio">
+          <span>Enter portfolio</span><kbd>1</kbd>
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/aditya-bagret?tab=repositories" data-warp="projects">
+          <span>View projects</span><kbd>2</kbd>
+        </a>
+      </div>
+    </main>
 
-    <nav id="blocks" aria-label="Links"></nav>
+    <footer class="hud">
+      <span>© <span id="year">2026</span> Aditya Sharma</span>
+      <span class="hud-right">
+        <span>Region · The Monolith</span>
+        <span>Alt · 2,140 m</span>
+        <span>Local time · <b id="clock">--:--</b></span>
+      </span>
+    </footer>
+  </div>
 
-    <div class="player" id="player" aria-hidden="true"></div>
-    <div class="ground" aria-hidden="true"></div>
+  <div id="fade" class="fade" aria-hidden="true"></div>
 
-    <p class="controls" aria-hidden="true">
-      <span class="desk">← → move &nbsp;·&nbsp; space jump &nbsp;·&nbsp; 1 / 2 warp</span>
-      <span class="touch">tap a block</span>
-    </p>
-  </main>
-
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
