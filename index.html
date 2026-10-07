@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Departures</title>
-  <meta name="description" content="A departure board of everything I've built — projects, profiles and docs.">
+  <meta name="description" content="Aditya Sharma — portfolio and projects.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111'/%3E%3Crect x='5' y='8' width='22' height='7' fill='%23ffb000'/%3E%3Crect x='5' y='17' width='22' height='7' fill='%23ffb000' opacity='.55'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,21 +29,7 @@
       </div>
     </header>
 
-    <nav class="controls" aria-label="Filter the board">
-      <div class="tabs" id="tabs" role="tablist"></div>
-      <label class="search">
-        <span class="eyebrow">Find</span>
-        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="destination…">
-      </label>
-    </nav>
-
-    <section class="board" aria-label="Links">
-      <div class="row head" aria-hidden="true">
-        <span>Gate</span><span>Destination</span><span>Type</span><span>Since</span><span>Status</span>
-      </div>
-      <ol id="rows"></ol>
-      <p class="empty" id="empty" hidden>No departures match that. Try another destination.</p>
-    </section>
+    <main class="gates" id="gates" aria-label="Links"></main>
 
     <aside class="ticker" aria-hidden="true">
       <span class="ticker-label">Info</span>
@@ -52,9 +38,7 @@
 
     <footer class="foot">
       <span id="owner"></span>
-      <span class="legend">
-        <i class="dot on"></i>On time <i class="dot board"></i>Boarding <i class="dot delay"></i>Delayed <i class="dot landed"></i>Landed
-      </span>
+      <span class="hint">Press <kbd>1</kbd> or <kbd>2</kbd> to board</span>
     </footer>
   </div>
 

@@ -11,16 +11,11 @@
     "LANDED":   "s-landed",
   };
 
-  // Gates are numbered by position in config.js and never change, so the
-  // keyboard shortcut for an entry stays the same while filtering.
   const entries = cfg.entries.map((e, i) => ({ ...e, gate: i + 1 }));
-  let activeKind = "all";
-  let query = "";
 
   // ── header / footer ──
   $("terminal").textContent = "Terminal " + cfg.terminal;
   $("ticker").textContent = cfg.ticker + "   ·   " + cfg.ticker;
-  $("owner").innerHTML = "";
   const owner = document.createElement("span");
   owner.textContent = "© " + new Date().getFullYear() + " " + cfg.owner + " · ";
   const gh = document.createElement("a");
@@ -40,20 +35,6 @@
   }
   tick();
   setInterval(tick, 1000 * 15);
-
-  // ── tabs ──
-  const tabs = [{ id: "all", label: "All" }, ...cfg.kinds];
-  tabs.forEach((t) => {
-    const b = document.createElement("button");
-    b.className = "tab";
-    b.type = "button";
-    b.setAttribute("role", "tab");
-    b.dataset.kind = t.id;
-    const count = t.id === "all" ? entries.length : entries.filter((e) => e.kind === t.id).length;
-    b.innerHTML = `${t.label}<span class="n">${count}</span>`;
-    b.addEventListener("click", () => { activeKind = t.id; render(); });
-    $("tabs").append(b);
-  });
 
   // ── split-flap ──
   function flap(text) {
@@ -81,7 +62,7 @@
 
   function spin(cells) {
     cells.forEach((c, i) => {
-      let flips = 4 + i * 2 + Math.floor(Math.random() * 4);
+      let flips = 6 + i * 3 + Math.floor(Math.random() * 4);
       c.classList.add("spin");
       const t = setInterval(() => {
         if (--flips <= 0) {
@@ -95,87 +76,46 @@
     });
   }
 
-  // ── board ──
-  function matches(e) {
-    if (activeKind !== "all" && e.kind !== activeKind) return false;
-    if (!query) return true;
-    const hay = (e.name + " " + e.tag + " " + e.note + " " + e.status).toLowerCase();
-    return hay.includes(query);
-  }
-
-  function row(e) {
-    const li = document.createElement("li");
+  // ── gates ──
+  function gate(e) {
     const a = document.createElement("a");
-    a.className = "row";
-    const live = e.url && e.url !== "#";
-    if (live) {
-      a.href = e.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-    } else {
-      a.setAttribute("aria-disabled", "true");
-      a.tabIndex = 0;
-    }
-    a.setAttribute("aria-label", `${e.name}, ${e.tag}, ${e.status}${live ? "" : ", link coming soon"}`);
+    a.className = "gate-card";
+    a.href = e.url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.setAttribute("aria-label", `Gate ${e.gate}: ${e.name}`);
 
-    const gate = document.createElement("span");
-    gate.className = "gate";
-    gate.innerHTML = `<small>G</small>${String(e.gate).padStart(2, "0")}`;
-
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = e.tag;
-
-    const year = document.createElement("span");
-    year.className = "year";
-    year.textContent = e.year;
-
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.innerHTML = `<span class="num"><small>Gate</small>${String(e.gate).padStart(2, "0")}</span>`;
     const status = document.createElement("span");
     status.className = "status " + (STATUS[e.status] || "s-landed");
     status.innerHTML = '<i class="dot"></i>';
     status.append(e.status);
+    meta.append(status);
 
-    const note = document.createElement("span");
+    const note = document.createElement("p");
     note.className = "note";
-    note.textContent = "→ " + e.note;
+    note.textContent = e.note;
 
-    a.append(gate, flap(e.name), tag, year, status, note);
-    li.append(a);
-    return li;
+    const go = document.createElement("span");
+    go.className = "go";
+    go.innerHTML = 'Board <span aria-hidden="true">→</span>';
+
+    const foot = document.createElement("div");
+    foot.className = "card-foot";
+    foot.append(note, go);
+
+    a.append(meta, flap(e.name), foot);
+    return a;
   }
 
-  function render() {
-    document.querySelectorAll(".tab").forEach((b) =>
-      b.setAttribute("aria-selected", String(b.dataset.kind === activeKind)));
-    const list = entries.filter(matches);
-    $("rows").replaceChildren(...list.map(row));
-    $("empty").hidden = list.length > 0;
-  }
+  $("gates").replaceChildren(...entries.map(gate));
 
-  // ── search + shortcuts ──
-  $("q").addEventListener("input", (ev) => {
-    query = ev.target.value.trim().toLowerCase();
-    render();
-  });
-
+  // ── shortcuts ──
   document.addEventListener("keydown", (ev) => {
     if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
-    const typing = document.activeElement === $("q");
-    if (ev.key === "Escape") {
-      $("q").value = ""; query = ""; $("q").blur(); render();
-      return;
-    }
-    if (typing) return;
-    if (/^[1-9]$/.test(ev.key)) {
-      const e = entries.find((x) => x.gate === Number(ev.key));
-      if (e && e.url && e.url !== "#") window.open(e.url, "_blank", "noopener");
-      return;
-    }
-    if (ev.key === "/" || /^[a-z]$/i.test(ev.key)) {
-      $("q").focus();
-      if (ev.key === "/") ev.preventDefault();
-    }
+    const e = entries.find((x) => String(x.gate) === ev.key);
+    if (e) window.open(e.url, "_blank", "noopener");
   });
-
-  render();
 })();
