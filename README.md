@@ -1,11 +1,13 @@
-# Departures
+# aditya-bagret.github.io
 
-A personal link page styled like an airport departure board. Each link is a "gate":
-click it, or press its number key (1, 2) to open it.
+A tiny retro-platformer landing page. Hit a **?** block to warp to that link.
 
-**Edit `config.js` to change the links.** You don't need to touch any other file.
+- Click or tap a block, and the character runs over, jumps and hits it.
+- Keyboard: ← → to move, Space to jump, 1 / 2 to warp straight to a block.
+- Dark mode turns it into a night level.
 
-Statuses: `ON TIME`, `BOARDING`, `DELAYED`, `LANDED`.
+**Edit `config.js` to change your name, tagline and the blocks.** All the pixel art is
+drawn in code, so there are no image files to manage.
 
 ## Run locally
 

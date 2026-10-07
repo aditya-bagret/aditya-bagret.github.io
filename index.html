@@ -2,45 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Departures</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Aditya Sharma</title>
   <meta name="description" content="Aditya Sharma — portfolio and projects.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23111'/%3E%3Crect x='5' y='8' width='22' height='7' fill='%23ffb000'/%3E%3Crect x='5' y='17' width='22' height='7' fill='%23ffb000' opacity='.55'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%235a2800'/%3E%3Crect x='1' y='1' width='14' height='14' fill='%23f8a830'/%3E%3Crect x='6' y='3' width='4' height='2' fill='%23fff'/%3E%3Crect x='9' y='5' width='2' height='3' fill='%23fff'/%3E%3Crect x='7' y='8' width='2' height='2' fill='%23fff'/%3E%3Crect x='7' y='11' width='2' height='2' fill='%23fff'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="frame">
-    <header class="top">
-      <div class="sign">
-        <svg class="glyph" viewBox="0 0 48 48" aria-hidden="true">
-          <path d="M6 30 L42 18 L44 22 L30 28 L22 42 L18 42 L22 30 L12 33 L8 38 L5 38 L7 31 Z" fill="currentColor"/>
-        </svg>
-        <div>
-          <p class="eyebrow" id="terminal">Terminal A</p>
-          <h1>Departures</h1>
-        </div>
-      </div>
-      <div class="clock" aria-live="off">
-        <span id="clock-time">--:--</span>
-        <span id="clock-date" class="eyebrow">---</span>
-      </div>
+  <main class="world" id="world">
+    <div class="sky" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="hill h1"></div>
+      <div class="hill h2"></div>
+    </div>
+
+    <header class="hud" aria-hidden="true">
+      <div><span id="hud-name">PLAYER</span><b id="score">000000</b></div>
+      <div><span>&nbsp;</span><b><i class="coin-icon"></i>×<span id="coins">00</span></b></div>
+      <div><span>WORLD</span><b>1-1</b></div>
+      <div><span>TIME</span><b id="time">400</b></div>
     </header>
 
-    <main class="gates" id="gates" aria-label="Links"></main>
+    <section class="title">
+      <h1 id="name">Aditya Sharma</h1>
+      <p class="tagline" id="tagline"></p>
+      <p class="blink" id="prompt">Hit a block to start</p>
+    </section>
 
-    <aside class="ticker" aria-hidden="true">
-      <span class="ticker-label">Info</span>
-      <div class="ticker-track"><span id="ticker"></span></div>
-    </aside>
+    <nav id="blocks" aria-label="Links"></nav>
 
-    <footer class="foot">
-      <span id="owner"></span>
-      <span class="hint">Press <kbd>1</kbd> or <kbd>2</kbd> to board</span>
-    </footer>
-  </div>
+    <div class="player" id="player" aria-hidden="true"></div>
+    <div class="ground" aria-hidden="true"></div>
+
+    <p class="controls" aria-hidden="true">
+      <span class="desk">← → move &nbsp;·&nbsp; space jump &nbsp;·&nbsp; 1 / 2 warp</span>
+      <span class="touch">tap a block</span>
+    </p>
+  </main>
 
   <script src="config.js"></script>
   <script src="app.js"></script>
